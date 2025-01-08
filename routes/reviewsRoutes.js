@@ -42,11 +42,12 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Ruta para obtener todas las reseñas
+// Ruta para obtener todas las reseñas, ordenadas de mejor a peor
 router.get('/', async (req, res) => {
     try {
-        const reviews = await Review.find(); // Obtener todas las reseñas
-        res.status(200).json(reviews); // Enviar todas las reseñas
+        // Obtener todas las reviews, ordenadas de mayor a menor por la calificación
+        const reviews = await Review.find().sort({ rating: -1 });
+        res.status(200).json(reviews); // Enviar las reseñas ordenadas
     } catch (error) {
         res.status(500).json({
             message: 'Error al obtener las reseñas',
@@ -54,6 +55,7 @@ router.get('/', async (req, res) => {
         });
     }
 });
+
 
 // Ruta para obtener 3 reseñas aleatorias
 router.get('/random', async (req, res) => {
